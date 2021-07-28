@@ -1,7 +1,7 @@
+require('dotenv').config()
 const express = require('express');
 const mongodb = require('mongodb');
-const env = require("../../../Env");
-const url = env[0].MONGO_URL;
+const url = process.env.MONGO_URL;
 
 const router = express.Router();
 
