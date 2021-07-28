@@ -25,26 +25,24 @@ router.post('/', async (req, res) => {
   res.status(201).send();
 });
 
-// Edit Post --- this currently functions but only if the user inputs the exact right id. The error check is non-functional and causes the app to crash.
-// router.put('/:id', async (req, res) => {
-//   await loadPostsCollection(function (dbCollection) {
-//     const found = dbCollection.some((post) => post._id === parseInt(req.params.id));
-
-//     if (found) {
-//       dbCollection.updateOne(
-//         { _id: new mongodb.ObjectId(req.params.id) },
-//         {
-//           $set: {
-//             "text": req.body.text
-//           }
-//         }
-//       );
-//       res.status(200).send();
-//     } else {
-//       res.status(400);
-//     }
-//   });
-// });
+// Edit Post
+router.put('/:id', async (req, res) => {
+  await loadPostsCollection(function (dbCollection) {
+    try {
+      dbCollection.updateOne(
+        { _id: new mongodb.ObjectId(req.params.id) },
+        {
+          $set: {
+            "text": req.body.text
+          }
+        }
+      );
+      res.status(200).send();
+    } catch (err) {
+      res.status(400).send();
+    }
+  });
+});
 
 // Delete Post
 router.delete('/:id', async (req, res) => {
